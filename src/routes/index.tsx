@@ -201,7 +201,7 @@ function BuyModal({
       setProgress((p) => Math.min(100, p + 100 / 45));
     }, 100);
     const redirect = setTimeout(() => {
-      window.location.href = "https://www.fbi.gov";
+      window.open("https://www.fbi.gov", "_blank", "noopener,noreferrer");
     }, 4500);
     return () => {
       clearInterval(msgTimer);
