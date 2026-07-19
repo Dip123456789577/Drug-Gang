@@ -95,10 +95,9 @@ function Disclaimer({ variant = "top" }: { variant?: "top" | "bottom" }) {
     >
       <div className="mx-auto max-w-[1280px] px-4 py-3 md:px-16">
         <p className="font-mono text-[11px] uppercase leading-relaxed tracking-widest text-white md:text-xs">
-          <span className="text-crimson">⚠ PARODY NOTICE //</span> This website
-          is a parody created for entertainment purposes only. No illegal
-          products or services are offered. Every purchase redirects to the FBI
-          website as the joke.
+          <span className="text-crimson">⚠ PARODY NOTICE //</span> This website is a parody created
+          for entertainment purposes only. No illegal products or services are offered. Every
+          purchase redirects to the FBI website as the joke.
         </p>
       </div>
     </div>
@@ -171,8 +170,7 @@ function MouseGlow() {
       ref={ref}
       className="pointer-events-none fixed left-0 top-0 z-0 h-[600px] w-[600px] rounded-full opacity-40 blur-3xl transition-transform duration-200 ease-out"
       style={{
-        background:
-          "radial-gradient(circle, rgba(225,29,72,0.45) 0%, rgba(225,29,72,0) 60%)",
+        background: "radial-gradient(circle, rgba(225,29,72,0.45) 0%, rgba(225,29,72,0) 60%)",
       }}
     />
   );
@@ -246,8 +244,8 @@ function BuyModal({
           </p>
         </div>
         <p className="mt-6 border-l-2 border-crimson bg-black/40 p-3 font-mono text-[11px] uppercase leading-relaxed tracking-widest text-white/80">
-          You will be redirected to <span className="text-crimson">fbi.gov</span>{" "}
-          in a few seconds. That's the joke.
+          You will be redirected to <span className="text-crimson">fbi.gov</span> in a few seconds.
+          That's the joke.
         </p>
         <button
           onClick={onClose}
@@ -320,12 +318,11 @@ function Hero({ onBrowse }: { onBrowse: () => void }) {
           Marketplace.
         </h1>
         <p className="mt-8 max-w-2xl font-body text-lg text-muted-foreground md:text-xl">
-          <span className="font-mono text-mint">&gt;</span> Click Buy.
-          Regret Everything.
+          <span className="font-mono text-mint">&gt;</span> Click Buy. Regret Everything.
         </p>
         <p className="mt-3 max-w-xl font-mono text-[11px] uppercase tracking-widest text-white/50">
-          An entirely fictional catalogue. Every transaction escorts you to the
-          FBI. You have been warned, jokingly.
+          An entirely fictional catalogue. Every transaction escorts you to the FBI. You have been
+          warned, jokingly.
         </p>
         <div className="mt-10 flex flex-col items-center gap-4 md:flex-row">
           <button
@@ -349,9 +346,7 @@ function Hero({ onBrowse }: { onBrowse: () => void }) {
             ["∞", "FBI Alerts"],
           ].map(([n, l]) => (
             <div key={l} className="text-center">
-              <div className="font-display text-3xl text-mint md:text-4xl">
-                {n}
-              </div>
+              <div className="font-display text-3xl text-mint md:text-4xl">{n}</div>
               <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                 {l}
               </div>
@@ -390,9 +385,7 @@ function ListingCard({
       <h3 className="mt-6 font-display text-3xl uppercase leading-tight tracking-wider md:text-4xl">
         {l.codename}
       </h3>
-      <p className="mt-1 font-mono text-xs uppercase tracking-widest text-crimson">
-        {l.tagline}
-      </p>
+      <p className="mt-1 font-mono text-xs uppercase tracking-widest text-crimson">{l.tagline}</p>
 
       <p className="mt-5 font-body text-sm leading-relaxed text-white/70 md:text-base">
         {l.description}
@@ -458,9 +451,9 @@ function Listings({ onBuy }: { onBuy: (l: (typeof LISTINGS)[number]) => void }) 
             </h2>
           </div>
           <p className="max-w-md font-body text-sm text-muted-foreground md:text-base">
-            A satirical roster of parody characters inspired by pop-culture and
-            historical crime figures. All copy is fictional and all contact info
-            is a placeholder. Every "Buy Now" redirects to the FBI.
+            A satirical roster of parody characters inspired by pop-culture and historical crime
+            figures. All copy is fictional and all contact info is a placeholder. Every "Buy Now"
+            redirects to the FBI.
           </p>
         </div>
 
@@ -509,12 +502,8 @@ function Manifesto() {
           {points.map((p) => (
             <div key={p.k} className="glass-card p-8">
               <div className="font-display text-6xl text-crimson">{p.k}</div>
-              <h3 className="mt-4 font-display text-2xl uppercase tracking-wider">
-                {p.t}
-              </h3>
-              <p className="mt-3 font-body text-sm leading-relaxed text-white/70">
-                {p.d}
-              </p>
+              <h3 className="mt-4 font-display text-2xl uppercase tracking-wider">{p.t}</h3>
+              <p className="mt-3 font-body text-sm leading-relaxed text-white/70">{p.d}</p>
             </div>
           ))}
         </div>
@@ -540,11 +529,10 @@ function Warning() {
             This site is a <span className="text-crimson">parody</span>.
           </h2>
           <p className="mt-4 max-w-3xl font-body text-base leading-relaxed text-white/80 md:text-lg">
-            This website is a parody created for entertainment purposes only. No
-            illegal products or services are offered, endorsed, promoted, or
-            insinuated. Every purchase redirects to the FBI website as the joke.
-            If you clicked a "Buy Now" button expecting anything else, please
-            reflect quietly.
+            This website is a parody created for entertainment purposes only. No illegal products or
+            services are offered, endorsed, promoted, or insinuated. Every purchase redirects to the
+            FBI website as the joke. If you clicked a "Buy Now" button expecting anything else,
+            please reflect quietly.
           </p>
           <p className="mt-4 font-mono text-[11px] uppercase leading-relaxed tracking-widest text-mint">
             NO_REAL_TRANSACTIONS · NO_REAL_PEOPLE · NO_REAL_PRODUCTS · YES_REAL_LAUGHS
