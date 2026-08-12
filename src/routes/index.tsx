@@ -1,6 +1,7 @@
+import { useState, useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import heroBg from "@/assets/hero-bg.jpg";
+import App from "../App";
+import heroBg from "../assets/hero-bg.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -13,8 +14,9 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  component: Index,
+  component: App,
 });
+
 
 const LISTINGS = [
   {

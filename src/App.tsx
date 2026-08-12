@@ -25,8 +25,7 @@ const LISTINGS = [
     lethality: "PAPERWORK",
     price: "$1,929.00",
     tag: "HISTORICAL COSPLAY",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    image: "/cast/al_caprice.png",
   },
   {
     codename: "Pablo Escoban-Bread",
@@ -37,8 +36,7 @@ const LISTINGS = [
     lethality: "CARBOHYDRATE",
     price: "$99.99",
     tag: "ARTISAN BAKERY",
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    image: "/cast/pablo_escoban.png",
   },
   {
     codename: "Bonnie & Clyde-o'clock",
@@ -49,8 +47,7 @@ const LISTINGS = [
     lethality: "DRAMATIC",
     price: "$19.34",
     tag: "COUPLES RETREAT",
-    image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face",
+    image: "/cast/bonnie_clyde.png",
   },
   {
     codename: "Tony Meatballi",
@@ -61,8 +58,7 @@ const LISTINGS = [
     lethality: "SEASONED",
     price: "$83.00",
     tag: "FINE DINING",
-    image:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face&grayscale",
+    image: "/cast/tony_meatballi.png",
   },
   {
     codename: "The Godfather-in-Law",
@@ -73,8 +69,7 @@ const LISTINGS = [
     lethality: "PASSIVE-AGGRESSIVE",
     price: "$1,972.00",
     tag: "LIFE COACH",
-    image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face&sepia",
+    image: "/cast/godfather_in_law.png",
   },
   {
     codename: "Walter Wheat",
@@ -85,8 +80,7 @@ const LISTINGS = [
     lethality: "DIABETIC",
     price: "$50.00",
     tag: "STEM EDUCATION",
-    image:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face",
+    image: "/cast/walter_wheat.png",
   },
 ];
 

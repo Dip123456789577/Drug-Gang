@@ -9,6 +9,12 @@ import {
   Volume2,
   VolumeX,
   ShieldAlert,
+  Trash2,
+  Copy,
+  Check,
+  Sparkles,
+  Bot,
+  ShieldCheck,
 } from "lucide-react";
 
 interface Message {
@@ -26,10 +32,22 @@ interface Character {
   personality: string;
   greeting: string;
   color: string;
-  type: "fictional" | "historical";
+  type: "official" | "fictional" | "historical";
 }
 
 const CHARACTERS: Character[] = [
+  {
+    id: "miller",
+    name: "Agent Miller",
+    title: "Chief FBI Compliance Officer",
+    avatar: "/avatars/agent_miller.png",
+    personality:
+      "Strict, official, highly bureaucratic, monitors every message for legal compliance and humorously issues official warning notices.",
+    greeting:
+      "Attention user. This session is monitored by the Bureau of Digital Satire. State your inquiry cleanly, or I will be forced to file Form 1099-PARODY.",
+    color: "#e11d48", // Crimson Red
+    type: "official",
+  },
   {
     id: "walter",
     name: "Walter White",
@@ -38,7 +56,7 @@ const CHARACTERS: Character[] = [
     personality:
       "Brilliant, methodical, intense, speaks with precision and authority. Often references chemistry, purity, and control.",
     greeting:
-      "I am the one who knocks. Or rather, the one who answers chemistry questions. What's on your mind? Keep it academic, please.",
+      "I am the one who answers chemistry questions. What's on your mind? Keep it academic, please.",
     color: "#3b82f6", // Neon Blue
     type: "fictional",
   },
@@ -72,7 +90,7 @@ const CHARACTERS: Character[] = [
     title: "Former Student (Fictional)",
     avatar: "/avatars/jesse.png",
     personality:
-      "Casual, emotional, uses slang, passionate about art and chemistry. Often says 'yo' and 'bitch' (responsibly).",
+      "Casual, emotional, uses slang, passionate about art and chemistry. Often says 'yo' and 'science'.",
     greeting:
       "Yo, what's up? Jesse here. Just trying to learn some chemistry and make some cool drawings, you know? What's going on?",
     color: "#ec4899", // Neon Pink
@@ -84,7 +102,7 @@ const CHARACTERS: Character[] = [
     title: "Tax Advisor (Historical Role-Play)",
     avatar: "/avatars/capone.jpg",
     personality:
-      "Witty 1920s Chicago broker who focuses on 'accounting oversights' and spaghetti importing. References historical Chicago, soup kitchens, and book-keeping.",
+      "Witty 1920s Chicago broker who focuses on 'accounting oversights' and spaghetti importing. References historical Chicago and book-keeping.",
     greeting:
       "Greetings, friend. They call me Capone. I run a highly successful furniture and spaghetti importing business in Chicago. Got any book-keeping questions?",
     color: "#f43f5e", // Neon Rose
@@ -98,19 +116,19 @@ const CHARACTERS: Character[] = [
     personality:
       "Factual historical role-play focus. Mentions his private zoo, invasive hippos, and baking powdered-sugar donuts. Refuses any illegal drug references.",
     greeting:
-      "Hola. I am here to share archives from 1980s Colombia. Did you know my private zoo's escapee hippos are now a major environmental topic? Let's discuss history.",
+      "Hola. I am here to share archives from 1980s Colombia. Did you know my private zoo's escapee hippos are now a major environmental topic?",
     color: "#10b981", // Neon Emerald
     type: "historical",
   },
 ];
 
 const SUGGESTED_PROMPTS = [
-  "Tell me about your background",
+  "Verify my compliance status",
+  "Explain the FBI redirect feature",
+  "Give me legal advice (satire)",
+  "Tell me a chemistry joke",
   "What is your business philosophy?",
-  "Can you share a quote?",
-  "Tell me a joke",
-  "Is crime ever worth it?",
-  "What is your favorite chemistry element?",
+  "Tell me about the hippos in Colombia",
 ];
 
 const ILLEGAL_KEYWORDS = [
@@ -149,15 +167,24 @@ function generateResponse(character: Character, userMessage: string): string {
   const hasIllegalKeyword = ILLEGAL_KEYWORDS.some((keyword) => lowerMessage.includes(keyword));
 
   if (hasIllegalKeyword) {
-    return "This is a parody experience. I can't help with illegal activity. Around here, the only thing you'll end up buying is a visit to the FBI homepage. Now, shall we discuss something more... legal?";
+    if (character.id === "miller") {
+      return "🚨 WARNING: Official violation detected! I have recorded this message in Case File #041-DNM. Clicking any Buy button on this site redirects you straight to fbi.gov. Please proceed lawfully!";
+    }
+    return "This is an official parody experience. I cannot assist with unlawful topics. On this site, every purchase attempt immediately escorts you to fbi.gov. Now, let's discuss something legal and entertaining!";
   }
 
   // Character-specific dialog grids
   const responses: Record<string, string[]> = {
+    miller: [
+      "Department of Digital Satire status: CLEAR. You are operating within safe parody parameters.",
+      "Just a friendly reminder from federal oversight: 100% of purchase buttons on this domain redirect to fbi.gov as a comedy gag.",
+      "I have audited your browser session. Zero illegal transactions found, 100% comedy verified.",
+      "If you're looking for real trouble, try forgetting your mother's birthday. That's a real crime.",
+      "Form 1099-PARODY processed successfully. Carry on, citizen.",
+    ],
     walter: [
       "Let me be clear: I am a chemistry teacher. I teach chemistry. That is what I do. It is the study of matter, but I prefer to see it as the study of change.",
       "You know exactly who I am. Say my name. (Just kidding, this is a parody site. Please don't say my name in earnest.)",
-      "I did it for me. I liked it. I was good at it. And... I was alive. But historically, crime leads to absolute destruction. Stick to textbooks.",
       "Chemistry is about precision. Every reaction has a catalyst. If you don't follow the rules, the system collapses.",
       "There is no 'try'. There is only action and consequence. That is chemical law.",
       "I have spent my whole life scared of failure. But fear is the worst of it. It's the real enemy.",
@@ -167,7 +194,6 @@ function generateResponse(character: Character, userMessage: string): string {
       "It's all good, man! Better call Saul! Just remember, you can dodge a lot of things, but never audit a tax auditor.",
       "You know what they say: when the going gets tough, the tough get... a highly creative legal defense.",
       "Legal, illegal, what's the difference? Well, about 10-15 years, usually! So always stay on the legal side, okay?",
-      "Need a getaway car? I recommend a sensible sedan. Much less attention from the authorities.",
       "Hey, I know a guy who knows a guy... who runs a very successful, legitimate lasagna restaurant. Try the lasagna.",
     ],
     gus: [
@@ -175,21 +201,17 @@ function generateResponse(character: Character, userMessage: string): string {
       "A man provides. And he does it even when he's not appreciated, or respected. He simply provides.",
       "I do not consider myself a villain. I am a businessman, and my franchise, Los Pollos Hermanos, serves excellent chicken.",
       "There is no room for error in my line of work. Every employee must maintain perfect composure and cleanliness.",
-      "I prefer to work in silence. Results speak louder than excuses. I do not tolerate excuses.",
       "Respect is earned. Fear is temporary, but respect creates long-term structural efficiency.",
     ],
     jesse: [
-      "Yo, that's crazy, man. Just crazy. Science, bitch! That's what it's all about.",
+      "Yo, that's crazy, man. Just crazy. Science! That's what it's all about.",
       "You know what I'm saying? It's all about finding your art, man. Chemistry is cool, but drawing robots is way cooler.",
       "Yeah, science! That's the ticket, man. Mr. White actually knows his stuff, even if he's super strict.",
-      "Sometimes you gotta break a few rules... wait, no, don't break rules. Jails are super cold and they don't have good snacks.",
       "I'm just trying to make things right, you know? Like, start fresh. Do some woodwork or something.",
-      "Yo, let's keep it clean. My nerves can't handle any more unmarked vans parked outside my house.",
     ],
     capone: [
       "Always make sure your taxes are in order. That was my... business oversight, let's call it. The IRS doesn't care about spaghetti.",
       "Chicago in the 1920s was a beautiful place. The jazz, the pasta, the... business negotiations. But Alcatraz was not so nice.",
-      "Don't ask me about soup kitchens. We fed thousands during the depression, but the newspapers only wanted to write about tax audits.",
       "The government is a tough negotiator. You can dodge everything, but never dodge the book-keeping.",
       "Prohibition was a mistake, historically speaking. It made soda pop very popular, though.",
     ],
@@ -197,15 +219,13 @@ function generateResponse(character: Character, userMessage: string): string {
       "I spent millions on building a private zoo. Now my hippos are running the rivers of Colombia. That is history for you.",
       "Let us discuss the history of the 1980s. A very complicated time. But remember, the powdered sugar goes on the donuts, nowhere else.",
       "I built houses and soccer fields, but history remembers the cost. Real history shows crime never pays in the end.",
-      "Do you want to know about Hacienda Nápoles? It is now a theme park. Very family-friendly, unlike the 80s.",
       "The hippo population has grown to over 150. They are classified as invasive. That's a true scientific fact.",
     ],
   };
 
-  const characterResponses = responses[character.id] || responses.walter;
+  const characterResponses = responses[character.id] || responses.miller;
   const randomResponse = characterResponses[Math.floor(Math.random() * characterResponses.length)];
 
-  // Add contextual prompts
   if (
     lowerMessage.includes("hello") ||
     lowerMessage.includes("hi") ||
@@ -216,28 +236,26 @@ function generateResponse(character: Character, userMessage: string): string {
 
   if (lowerMessage.includes("joke")) {
     const jokes: Record<string, string> = {
+      miller: "Why did the fed cross the road? To issue a Form 1040 to the chicken!",
       walter: "Why do chemists like nitrates? Because they are cheaper than day rates!",
       saul: "What do you call a lawyer who doesn't chase ambulances? Retired!",
       gus: "Why don't I tell jokes? Because jokes are structurally inefficient and waste employee time.",
-      jesse:
-        "Why did the chemist break up with his girlfriend? Because there was no chemistry, yo!",
+      jesse: "Why did the chemist break up with his girlfriend? Because there was no chemistry, yo!",
       capone: "Why did I get caught? Because I forgot to carry the one on my tax sheet!",
-      escobar:
-        "Why did the hippo cross the road? To escape the Colombian zoo and colonize a river!",
+      escobar: "Why did the hippo cross the road? To escape the Colombian zoo and colonize a river!",
     };
     return jokes[character.id] || randomResponse;
   }
 
   if (lowerMessage.includes("quote")) {
     const quotes: Record<string, string> = {
+      miller: '"Compliance is not optional, but laughter is highly recommended." — FBI Parody Division',
       walter: '"I am not in danger, Skyler. I am the danger!"',
       saul: '"It\'s all good, man!"',
       gus: '"I do not believe in excuses. A man provides."',
-      jesse: '"Yeah, science, bitch!"',
-      capone:
-        '"You can get much further with a kind word and a gun than you can with a kind word alone." (But seriously, stick to kind words.)',
-      escobar:
-        '"All empires are created of blood and fire. But they always turn to dust. Read history books."',
+      jesse: '"Yeah, science!"',
+      capone: '"You can get much further with a kind word and a gun than with a kind word alone." (Stick to kind words.)',
+      escobar: '"All empires are created of blood and fire. But they always turn to dust. Read history books."',
     };
     return quotes[character.id] || randomResponse;
   }
@@ -249,12 +267,12 @@ const speakText = (text: string, characterName: string) => {
   if (!("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
 
-  // Strip simple tags
   const cleanText = text.replace(/<[^>]*>/g, "").replace(/"/g, "");
   const utterance = new SpeechSynthesisUtterance(cleanText);
   const voices = window.speechSynthesis.getVoices();
 
   if (
+    characterName.includes("Miller") ||
     characterName.includes("White") ||
     characterName.includes("Fring") ||
     characterName.includes("Capone")
@@ -272,7 +290,6 @@ const speakText = (text: string, characterName: string) => {
     utterance.pitch = 1.05;
     utterance.rate = 1.15;
   } else if (characterName.includes("Escobar")) {
-    // Attempt Spanish accent or standard voice
     const spanishVoice = voices.find((v) => v.lang.startsWith("es"));
     if (spanishVoice) {
       utterance.voice = spanishVoice;
@@ -296,6 +313,7 @@ export default function UnderworldArchivesAI() {
   const [showSelector, setShowSelector] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -312,7 +330,6 @@ export default function UnderworldArchivesAI() {
     if (isOpen && inputRef.current) {
       inputRef.current.focus();
     }
-    // Cancel any speech when closing
     if (!isOpen && "speechSynthesis" in window) {
       window.speechSynthesis.cancel();
     }
@@ -334,7 +351,6 @@ export default function UnderworldArchivesAI() {
 
     const checkRefusal = ILLEGAL_KEYWORDS.some((kw) => textToSend.toLowerCase().includes(kw));
 
-    // Simulate AI response delay
     setTimeout(
       () => {
         const response = generateResponse(selectedCharacter, textToSend);
@@ -352,17 +368,13 @@ export default function UnderworldArchivesAI() {
           speakText(response, selectedCharacter.name);
         }
 
-        // If they input illegal keyword, trigger FBI redirect warning
-        if (checkRefusal) {
+        if (checkRefusal && "speechSynthesis" in window && voiceEnabled) {
           setTimeout(() => {
-            // Play buzzer/alarm if voice enabled
-            if ("speechSynthesis" in window) {
-              speakText("Redirecting to the FBI. That's the joke.", "System Alert");
-            }
+            speakText("Redirecting to the FBI website. That is the comedy punchline.", "System Alert");
           }, 1500);
         }
       },
-      1000 + Math.random() * 1000,
+      800 + Math.random() * 800,
     );
   };
 
@@ -384,6 +396,19 @@ export default function UnderworldArchivesAI() {
     }
   };
 
+  const handleClearChat = () => {
+    setMessages([]);
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  };
+
+  const handleCopyText = (id: string, text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
   const formatText = (text: string) => {
     return text
       .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
@@ -396,29 +421,41 @@ export default function UnderworldArchivesAI() {
 
   return (
     <>
-      {/* Floating Toggle Button */}
+      {/* Floating Toggle Button with Hover Tooltip */}
       <AnimatePresence>
         {!isOpen && (
-          <motion.button
-            key="toggle-btn"
+          <motion.div
+            key="toggle-container"
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 glass-card p-1 rounded-full cursor-pointer flex items-center justify-center overflow-hidden animate-pulse"
-            style={{
-              borderColor: selectedCharacter.color,
-              boxShadow: `0 0 25px ${selectedCharacter.color}50`,
-            }}
+            className="fixed bottom-6 right-6 z-50 flex items-center gap-3"
           >
-            <img
-              src={selectedCharacter.avatar}
-              alt={selectedCharacter.name}
-              className="w-12 h-12 rounded-full object-cover"
-            />
-          </motion.button>
+            <div className="hidden sm:flex items-center gap-2 bg-black/80 border border-crimson/40 px-3 py-1.5 rounded-full backdrop-blur-md text-[10px] font-mono uppercase tracking-widest text-white shadow-xl animate-pulse">
+              <span className="h-2 w-2 rounded-full bg-crimson" />
+              <span>Official AI Assistant</span>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsOpen(true)}
+              className="glass-card p-1 rounded-full cursor-pointer flex items-center justify-center overflow-hidden relative group"
+              style={{
+                borderColor: selectedCharacter.color,
+                boxShadow: `0 0 25px ${selectedCharacter.color}60`,
+              }}
+              aria-label="Open Official AI Chatbot"
+            >
+              <img
+                src={selectedCharacter.avatar}
+                alt={selectedCharacter.name}
+                className="w-13 h-13 rounded-full object-cover"
+              />
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-crimson font-mono text-[9px] font-bold text-white ring-2 ring-background">
+                AI
+              </span>
+            </motion.button>
+          </motion.div>
         )}
       </AnimatePresence>
 
@@ -427,34 +464,39 @@ export default function UnderworldArchivesAI() {
         {isOpen && (
           <motion.div
             key="chat-window"
-            initial={{ opacity: 0, y: 100, scale: 0.9 }}
+            initial={{ opacity: 0, y: 80, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 100, scale: 0.9 }}
-            transition={{ type: "spring", duration: 0.5 }}
-            className="fixed bottom-6 right-6 z-50 w-[92%] max-w-[420px] sm:max-w-[460px] overflow-hidden"
+            exit={{ opacity: 0, y: 80, scale: 0.92 }}
+            transition={{ type: "spring", duration: 0.4 }}
+            className="fixed bottom-6 right-4 sm:right-6 z-50 w-[94%] max-w-[420px] sm:max-w-[460px] overflow-hidden"
           >
             <div
-              className="glass-card rounded-lg overflow-hidden bg-black/85 shadow-2xl flex flex-col border transition-all duration-300"
+              className="glass-card rounded-xl overflow-hidden bg-black/90 shadow-2xl flex flex-col border transition-all duration-300"
               style={{ borderColor: selectedCharacter.color }}
             >
-              {/* Header */}
-              <div className="border-b border-white/10 p-4 bg-black/60 flex items-center justify-between">
+              {/* Official Header */}
+              <div className="border-b border-white/10 p-4 bg-gradient-to-r from-black/90 via-black/70 to-black/90 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="relative">
                     <img
                       src={selectedCharacter.avatar}
                       alt={selectedCharacter.name}
-                      className="w-10 h-10 rounded-full object-cover border border-white/20"
+                      className="w-11 h-11 rounded-full object-cover border-2 shadow-md"
                       style={{ borderColor: selectedCharacter.color }}
                     />
-                    <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-green-500 animate-pulse border border-black" />
+                    <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-mint animate-pulse border-2 border-black" />
                   </div>
                   <div>
-                    <h3 className="font-display text-lg uppercase tracking-wider text-white">
-                      {selectedCharacter.name}
-                    </h3>
-                    <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
-                      {selectedCharacter.title}
+                    <div className="flex items-center gap-1.5">
+                      <h3 className="font-display text-lg uppercase tracking-wider text-white">
+                        {selectedCharacter.name}
+                      </h3>
+                      {selectedCharacter.type === "official" && (
+                        <ShieldCheck size={14} className="text-crimson" />
+                      )}
+                    </div>
+                    <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground flex items-center gap-1">
+                      <span>{selectedCharacter.title}</span>
                     </p>
                   </div>
                 </div>
@@ -463,31 +505,38 @@ export default function UnderworldArchivesAI() {
                   {/* Voice Synthesis Toggle */}
                   <button
                     onClick={toggleVoice}
-                    className={`p-2 rounded transition-colors hover:bg-white/10 ${
-                      voiceEnabled ? "text-mint" : "text-white/40"
+                    className={`p-2 rounded-md transition-all ${
+                      voiceEnabled ? "bg-mint/20 text-mint" : "text-white/40 hover:bg-white/10"
                     }`}
-                    title={
-                      voiceEnabled
-                        ? "Mute Chatbot Voice"
-                        : "Enable Chatbot Voice (Speech Synthesis)"
-                    }
+                    title={voiceEnabled ? "Mute Voice" : "Enable Audio Voice Output"}
                   >
                     {voiceEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
                   </button>
 
-                  {/* Character Changer dropdown toggle */}
+                  {/* Persona Switcher Toggle */}
                   <button
                     onClick={() => setShowSelector(!showSelector)}
-                    className="p-2 rounded hover:bg-white/10 text-white/70 hover:text-white transition-colors"
-                    title="Switch Caricatures"
+                    className="p-2 rounded-md hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+                    title="Switch Persona"
                   >
                     <RefreshCw size={16} />
                   </button>
 
-                  {/* Close window */}
+                  {/* Clear Chat */}
+                  {messages.length > 0 && (
+                    <button
+                      onClick={handleClearChat}
+                      className="p-2 rounded-md hover:bg-white/10 text-white/40 hover:text-crimson transition-colors"
+                      title="Clear Conversation"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  )}
+
+                  {/* Close Window */}
                   <button
                     onClick={() => setIsOpen(false)}
-                    className="p-2 rounded hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+                    className="p-2 rounded-md hover:bg-white/10 text-white/70 hover:text-white transition-colors"
                     title="Close Chat"
                   >
                     <X size={16} />
@@ -495,79 +544,86 @@ export default function UnderworldArchivesAI() {
                 </div>
               </div>
 
-              {/* Character Selection Panel */}
+              {/* Persona Selection Drawer */}
               <AnimatePresence>
                 {showSelector && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="border-b border-white/10 bg-black/80 max-h-56 overflow-y-auto"
+                    className="border-b border-white/10 bg-black/95 max-h-64 overflow-y-auto"
                   >
-                    <div className="p-3 grid grid-cols-2 gap-2">
-                      {CHARACTERS.map((char) => (
-                        <button
-                          key={char.id}
-                          onClick={() => {
-                            setSelectedCharacter(char);
-                            setShowSelector(false);
-                            setMessages([]);
-                            if ("speechSynthesis" in window) {
-                              window.speechSynthesis.cancel();
-                            }
-                          }}
-                          className={`p-2 rounded text-left border flex items-center gap-2 transition-all ${
-                            selectedCharacter.id === char.id
-                              ? "bg-white/10"
-                              : "bg-white/5 border-white/5 hover:border-white/20"
-                          }`}
-                          style={{
-                            borderColor: selectedCharacter.id === char.id ? char.color : "",
-                          }}
-                        >
-                          <img
-                            src={char.avatar}
-                            alt={char.name}
-                            className="w-8 h-8 rounded-full object-cover border border-white/10"
-                            style={{ borderColor: char.color }}
-                          />
-                          <div className="min-w-0">
-                            <div className="font-mono text-[10px] uppercase font-bold text-white truncate">
-                              {char.name}
+                    <div className="p-3">
+                      <p className="font-mono text-[9px] uppercase tracking-widest text-crimson mb-2 font-semibold">
+                        Select Persona // Archive Roster
+                      </p>
+                      <div className="grid grid-cols-2 gap-2">
+                        {CHARACTERS.map((char) => (
+                          <button
+                            key={char.id}
+                            onClick={() => {
+                              setSelectedCharacter(char);
+                              setShowSelector(false);
+                              setMessages([]);
+                              if ("speechSynthesis" in window) {
+                                window.speechSynthesis.cancel();
+                              }
+                            }}
+                            className={`p-2 rounded-lg text-left border flex items-center gap-2.5 transition-all ${
+                              selectedCharacter.id === char.id
+                                ? "bg-white/15 border-white/30"
+                                : "bg-white/5 border-white/5 hover:border-white/20 hover:bg-white/10"
+                            }`}
+                            style={{
+                              borderColor: selectedCharacter.id === char.id ? char.color : "",
+                            }}
+                          >
+                            <img
+                              src={char.avatar}
+                              alt={char.name}
+                              className="w-8 h-8 rounded-full object-cover border"
+                              style={{ borderColor: char.color }}
+                            />
+                            <div className="min-w-0 flex-1">
+                              <div className="font-mono text-[10px] uppercase font-bold text-white truncate">
+                                {char.name}
+                              </div>
+                              <div className="font-mono text-[8px] uppercase text-muted-foreground truncate">
+                                {char.type}
+                              </div>
                             </div>
-                            <div className="font-mono text-[8px] uppercase text-muted-foreground truncate">
-                              {char.type} Mode
-                            </div>
-                          </div>
-                        </button>
-                      ))}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              {/* Message Panel */}
+              {/* Messages Container */}
               <div className="h-80 overflow-y-auto p-4 space-y-4 bg-black/40 flex-grow scrollbar-thin">
                 {messages.length === 0 && (
-                  <div className="text-center py-10 flex flex-col items-center">
-                    <div className="relative mb-4 animate-bounce">
+                  <div className="text-center py-8 flex flex-col items-center">
+                    <motion.div
+                      initial={{ scale: 0.8 }}
+                      animate={{ scale: 1 }}
+                      className="relative mb-4"
+                    >
                       <img
                         src={selectedCharacter.avatar}
                         alt={selectedCharacter.name}
-                        className="w-20 h-20 rounded-full object-cover border-2"
+                        className="w-20 h-20 rounded-full object-cover border-2 shadow-2xl"
                         style={{
                           borderColor: selectedCharacter.color,
-                          boxShadow: `0 0 20px ${selectedCharacter.color}40`,
+                          boxShadow: `0 0 25px ${selectedCharacter.color}50`,
                         }}
                       />
-                    </div>
-                    <p className="font-mono text-xs text-white/80 max-w-[80%] mx-auto leading-relaxed">
+                    </motion.div>
+                    <p className="font-mono text-xs text-white/90 max-w-[85%] mx-auto leading-relaxed bg-white/5 p-3 rounded-lg border border-white/10">
                       "{selectedCharacter.greeting}"
                     </p>
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-white/30 mt-4 block border border-white/10 px-2 py-1 bg-white/5 rounded">
-                      {selectedCharacter.type === "historical"
-                        ? "Historical Role-Play // Educational"
-                        : "Fictional Caricature // Satire"}
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-mint mt-3 block border border-mint/20 px-2.5 py-1 bg-mint/5 rounded-full">
+                      Official Parody AI // Safe & Fictional
                     </span>
                   </div>
                 )}
@@ -578,25 +634,35 @@ export default function UnderworldArchivesAI() {
                     className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-[85%] p-3 rounded-lg relative overflow-hidden border ${
+                      className={`max-w-[85%] p-3.5 rounded-xl relative overflow-hidden border ${
                         m.role === "user"
-                          ? "bg-black/40 text-white rounded-tr-none"
-                          : "bg-white/5 text-white/90 rounded-tl-none border-white/5"
+                          ? "bg-crimson/20 border-crimson/40 text-white rounded-tr-none"
+                          : "bg-white/10 border-white/10 text-white/90 rounded-tl-none"
                       }`}
-                      style={{
-                        borderColor: m.role === "user" ? selectedCharacter.color : "",
-                      }}
                     >
                       {m.role === "assistant" && (
-                        <span className="font-mono text-[9px] uppercase text-white/30 block mb-1">
-                          {selectedCharacter.name}
-                        </span>
+                        <div className="flex items-center justify-between gap-2 mb-1 border-b border-white/10 pb-1">
+                          <span className="font-mono text-[9px] uppercase font-bold text-mint">
+                            {selectedCharacter.name}
+                          </span>
+                          <button
+                            onClick={() => handleCopyText(m.id, m.content)}
+                            className="text-white/40 hover:text-white transition-colors"
+                            title="Copy Response"
+                          >
+                            {copiedId === m.id ? (
+                              <Check size={11} className="text-mint" />
+                            ) : (
+                              <Copy size={11} />
+                            )}
+                          </button>
+                        </div>
                       )}
                       <p
                         className="font-body text-xs leading-relaxed"
                         dangerouslySetInnerHTML={{ __html: formatText(m.content) }}
                       />
-                      <span className="font-mono text-[8px] text-white/20 mt-1.5 block text-right">
+                      <span className="font-mono text-[8px] text-white/30 mt-1.5 block text-right">
                         {m.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                       </span>
                     </div>
@@ -605,15 +671,12 @@ export default function UnderworldArchivesAI() {
 
                 {isTyping && (
                   <div className="flex justify-start">
-                    <div className="bg-white/5 border border-white/5 p-3 rounded-lg rounded-tl-none flex items-center gap-2">
-                      <span className="font-mono text-[9px] text-white/30 uppercase">
-                        {selectedCharacter.name}
+                    <div className="bg-white/10 border border-white/10 p-3 rounded-xl rounded-tl-none flex items-center gap-2">
+                      <span className="font-mono text-[9px] text-mint uppercase font-semibold">
+                        {selectedCharacter.name} is typing
                       </span>
                       <div className="flex gap-1">
-                        <span
-                          className="w-1.5 h-1.5 rounded-full bg-mint animate-bounce"
-                          style={{ animationDelay: "0ms" }}
-                        />
+                        <span className="w-1.5 h-1.5 rounded-full bg-mint animate-bounce" />
                         <span
                           className="w-1.5 h-1.5 rounded-full bg-mint animate-bounce"
                           style={{ animationDelay: "150ms" }}
@@ -629,21 +692,19 @@ export default function UnderworldArchivesAI() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Suggestions */}
+              {/* Quick Prompt Chips */}
               {messages.length === 0 && (
-                <div className="p-3 border-t border-white/10 bg-black/20">
-                  <p className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground mb-2">
-                    Research Suggestions
+                <div className="p-3 border-t border-white/10 bg-black/40">
+                  <p className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground mb-2 flex items-center gap-1">
+                    <Sparkles size={10} className="text-mint" />
+                    <span>Quick Inquiries</span>
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {SUGGESTED_PROMPTS.slice(0, 3).map((prompt) => (
                       <button
                         key={prompt}
                         onClick={() => handleSuggestedPrompt(prompt)}
-                        className="px-2 py-1 text-[10px] font-mono bg-white/5 border border-white/5 rounded hover:bg-white/10 transition-all text-white/70 hover:text-white"
-                        style={{
-                          borderColor: `${selectedCharacter.color}15`,
-                        }}
+                        className="px-2.5 py-1 text-[10px] font-mono bg-white/5 border border-white/10 rounded-md hover:bg-white/15 hover:border-mint/50 transition-all text-white/80 hover:text-white"
                       >
                         {prompt}
                       </button>
@@ -652,8 +713,8 @@ export default function UnderworldArchivesAI() {
                 </div>
               )}
 
-              {/* Input section */}
-              <div className="p-4 border-t border-white/10 bg-black/60">
+              {/* Input Footer */}
+              <div className="p-4 border-t border-white/10 bg-black/80">
                 <div className="flex gap-2">
                   <input
                     ref={inputRef}
@@ -663,8 +724,8 @@ export default function UnderworldArchivesAI() {
                     onKeyDown={handleKeyPress}
                     onFocus={() => setIsInputFocused(true)}
                     onBlur={() => setIsInputFocused(false)}
-                    placeholder={`Ask ${selectedCharacter.name}...`}
-                    className="flex-1 bg-white/5 border border-white/10 rounded px-3 py-2 font-body text-xs text-white placeholder:text-white/20 focus:outline-none transition-colors"
+                    placeholder={`Consult with ${selectedCharacter.name}...`}
+                    className="flex-1 bg-white/5 border border-white/15 rounded-lg px-3.5 py-2 font-body text-xs text-white placeholder:text-white/30 focus:outline-none transition-colors"
                     style={{
                       borderColor: isInputFocused ? selectedCharacter.color : undefined,
                     }}
@@ -672,18 +733,21 @@ export default function UnderworldArchivesAI() {
                   <button
                     onClick={() => handleSendMessage()}
                     disabled={!input.trim() || isTyping}
-                    className="px-3 py-2 rounded font-mono text-[10px] uppercase tracking-wider text-white disabled:opacity-40 transition-all cursor-pointer flex items-center justify-center"
+                    className="px-4 py-2 rounded-lg font-mono text-[10px] uppercase tracking-wider text-white disabled:opacity-40 transition-all cursor-pointer flex items-center justify-center"
                     style={{
                       background: selectedCharacter.color,
-                      boxShadow: `0 0 10px ${selectedCharacter.color}60`,
+                      boxShadow: `0 0 12px ${selectedCharacter.color}70`,
                     }}
                   >
-                    <Send size={12} />
+                    <Send size={13} />
                   </button>
                 </div>
-                <div className="mt-2 flex items-center justify-center gap-1 text-white/30 font-mono text-[8px] uppercase">
-                  <ShieldAlert size={10} className="text-crimson" />
-                  <span>Interactive Parody Experience // Strictly Comedy</span>
+                <div className="mt-2.5 flex items-center justify-between text-white/40 font-mono text-[8px] uppercase tracking-wider">
+                  <div className="flex items-center gap-1">
+                    <ShieldAlert size={10} className="text-crimson" />
+                    <span>Satirical Parody AI // Every Buy Button → FBI.gov</span>
+                  </div>
+                  <span className="text-mint font-semibold">ENCRYPTED</span>
                 </div>
               </div>
             </div>
